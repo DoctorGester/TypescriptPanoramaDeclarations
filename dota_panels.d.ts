@@ -62,7 +62,7 @@ interface Panel extends PanelBase {
     ToggleClass(name: string): void;
     SwitchClass(name: string, replacement: string): void;
 
-    ClearPanelEvent(): void;
+    ClearPanelEvent(event: PanelEvent): void;
 
     SetDraggable(): void;
     IsDraggable(): boolean;
