@@ -2331,6 +2331,19 @@ interface DollarStatic {
     Each<T>(map: {[key: string]: T}, callback: (value: T, key: string) => void): void;
     Each<T>(map: {[key: number]: T}, callback: (value: T, key: number) => void): void;
     AsyncWebRequest(url: string, data: AsyncWebRequestData): void;
+
+    RegisterEventHandler(event: "DragStart", parent: Panel, handler: (panelID: string, callbacks: DragCallbacks) => boolean): number;
+    RegisterEventHandler(event: "DragEnd", parent: Panel, handler: (panelID: string, dragged: Panel) => boolean): number;
+    RegisterEventHandler(event: "DragDrop", parent: Panel, handler: (panelID: string, dragged: Panel) => boolean): number;
+    RegisterEventHandler(event: "DragEnter", parent: Panel, handler: (_: unknown, dragged: Panel) => boolean): number;
+    RegisterEventHandler(event: "DragLeave", parent: Panel, handler: (panelID: string, dragged: Panel) => boolean): number;
+}
+
+interface DragCallbacks {
+    displayPanel: Panel
+    offsetX: number
+    offsetY: number
+    removePositionBeforeDrop: boolean
 }
 
 interface AsyncWebRequestResponse {

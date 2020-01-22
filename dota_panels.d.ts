@@ -64,7 +64,7 @@ interface Panel extends PanelBase {
 
     ClearPanelEvent(event: PanelEvent): void;
 
-    SetDraggable(): void;
+    SetDraggable(flag: boolean): void;
     IsDraggable(): boolean;
 
     GetChildCount(): number;
