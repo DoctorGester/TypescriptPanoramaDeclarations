@@ -1029,7 +1029,8 @@ declare const enum PanelEvent {
     ON_MOUSE_OVER = "onmouseover",
     ON_MOUSE_OUT = "onmouseout",
     ON_ESCAPE_PRESS = "oncancel",
-    ON_INPUT_SUBMIT = "oninputsubmit"
+    ON_INPUT_SUBMIT = "oninputsubmit",
+    ON_TEXT_ENTRY_CHANGE = "ontextentrychange"
 }
 
 declare const enum ScalingFunction {
