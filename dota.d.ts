@@ -200,6 +200,21 @@ interface CDOTA_PanoramaScript_GameUI {
      * Set the camera target as position for the local player over specified lerp.
      */
     SetCameraTargetPosition(vec3: [number, number, number], flLerp: number): void;
+
+    /**
+     * Get the current camera position.
+     */
+    GetCameraPosition(): [number, number, number];
+
+    /**
+     * Get the current look at position.
+     */
+    GetCameraLookAtPosition(): [number, number, number];
+
+    /**
+     * Get the current look at position height offset.
+     */
+    GetCameraLookAtPositionHeightOffset(): number;
 }
 
 interface TableValue {
@@ -2043,6 +2058,16 @@ interface CScriptBindingPR_Game {
      *
      */
     AddCommand(pszCommandName: string, callback: (data: object) => void, pszDescription: string, nFlags: number): void;
+
+    /**
+     * Returns the keybind (as a string) for the requested inventory slot.
+     */
+    GetKeybindForInventorySlot(iSlot: number): string;
+
+    /**
+     * Returns the keybind (as a string).
+     */
+    GetKeybindForCommand(nCommand: DOTAKeybindCommand_t): string;
 
     /**
      *
