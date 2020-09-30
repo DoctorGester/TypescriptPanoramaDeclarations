@@ -32,6 +32,9 @@ interface Panel extends PanelBase {
     actuallayoutwidth: number;
     actuallayoutheight: number;
 
+    actualuiscale_x: number
+    actualuiscale_y: number
+
     desiredlayoutwidth: number;
     desiredlayoutheight: number;
 
