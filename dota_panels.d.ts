@@ -12,6 +12,67 @@
     https://github.com/ModDota/API.
 */
 
+interface PanoramaPanelNameMap {
+    Panel: Panel;
+    Label: LabelPanel;
+
+    Image: ImagePanel;
+    DOTAAbilityImage: AbilityImage;
+    DOTAItemImage: ItemImage;
+    DOTAHeroImage: HeroImage;
+    DOTACountryFlagImage: ImagePanel;
+    DOTALeagueImage: LeagueImage;
+    EconItemImage: ImagePanel;
+
+    AnimatedImageStrip: ImagePanel;
+    DOTAEmoticon: ImagePanel;
+
+    Movie: MoviePanel;
+    DOTAHeroMovie: HeroMovie;
+
+    DOTAScenePanel: ScenePanel;
+    DOTAEconItem: EconItemPanel;
+
+    ProgressBar: ProgressBar;
+    CircularProgressBar: CircularProgressBar;
+    ProgressBarWithMiddle: ProgressBarWithMiddle;
+
+    DOTAUserName: UserName;
+    DOTAUserRichPresence: UserRichPresence;
+    DOTAAvatarImage: AvatarImage;
+
+    Countdown: CountdownPanel;
+
+    Button: Button;
+    TextButton: TextButton;
+    ToggleButton: ToggleButton;
+    DOTASettingsCheckbox: SettingsCheckbox;
+    RadioButton: RadioButton;
+
+    TextEntry: TextEntry;
+    DOTAHUDShopTextEntry: HUDShopTextEntry;
+    NumberEntry: NumberEntry;
+    Slider: SliderPanel;
+    SlottedSlider: SlottedSlider;
+
+    DropDown: DropDown;
+    ContextMenuScript: ContextMenuScriptPanel;
+
+    Carousel: CarouselPanel;
+    DOTAHeroSetList: HeroSetList;
+    CarouselNav: Panel;
+
+    DOTAHUDOverlayMap: HUDOverlayMap;
+    DOTAMinimap: Panel;
+
+    HTML: HTML;
+    DOTAAccountLinkHTML: AccountLinkHTML;
+    DOTAHTMLPanel: HTMLPanel;
+    DOTAStoreCustomControls: StoreCustomControls;
+
+    CustomLayoutPanel: Panel;
+}
+
 interface PanelBase {
     paneltype: string;
     rememberchildfocus: boolean;
@@ -1083,6 +1144,19 @@ interface ScenePanel extends Panel {
     PlayEntitySoundEvent(arg1: any, arg2: any): number;
     SetUnit(unitName: string, environment: string): void;
     GetPanoramaSurfacePanel(): Panel;
+    SetRotateParams(yawMin: number, yawMax: number, pitchMin: number, pitchMax: number): void;
+    SpawnHeroInScenePanelByPlayerSlot(unknown1: string, unknown2: number, unknown3: string): boolean;
+    SpawnHeroInScenePanelByHeroId(unknown1: number, unknown2: string, unknown3: number): boolean;
+    SetScenePanelToPlayerHero(unknown1: string, unknown2: number): boolean;
+    SetScenePanelToLocalHero(heroId: EntityId): boolean;
+    SetPostProcessFade(value: number): void;
+    /**
+     * @example
+     * scenePanel.SetCustomPostProcessMaterial("materials/dev/deferred_post_process_graphic_ui.vmat")
+     */
+    SetCustomPostProcessMaterial(material: string): void;
+    SpawnHeroInScenePanelByPlayerSlotWithFullBodyView(unknown1: string, unknown2: number): boolean;
+    LerpToCameraEntity(unknown1: string, unknown2: number): void;
 }
 
 interface RadioButton extends Panel {
@@ -1184,33 +1258,91 @@ interface CarouselPanel extends Panel {
     SetSelectedChild(selected: Panel): void;
 }
 
+interface Button extends Panel {}
+
+interface LeagueImage extends ImagePanel {
+    leagueid: number;
+}
+
+interface EconItemPanel extends Panel {
+    /**
+     * @example
+     * // Wyvern Hatchling, Ice style
+     * panel.SetItemByDefinition(11321);
+     */
+    SetItemByDefinition(itemDef: number): void;
+
+    /**
+     * @example
+     * // Wyvern Hatchling, Gold style
+     * panel.SetItemByDefinition(11321, 2);
+     */
+    SetItemByDefinitionAndStyle(itemDef: number, style: number): void;
+}
+
+interface MoviePanel extends Panel {
+    SetMovie(source: string): void;
+    SetControls(controls: 'none' | 'minimal' | 'full'): void;
+    /**
+     * Changes video title that is shown with 'full' controls.
+     */
+    SetTitle(title: string): void;
+    Play(): void;
+    Pause(): void;
+    Stop(): void;
+    SetRepeat(repeat: boolean): void;
+    /**
+     * @param volume A number within 0..1 range.
+     */
+    SetPlaybackVolume(volume: number): void;
+    BAdjustingVolume(): boolean;
+}
+
+interface CountdownPanel extends Panel {
+    // get(): string; set(): number;
+    startTime: string | number;
+    // get(): string; set(): number;
+    endTime: string | number;
+    /** @default 1 */
+    updateInterval: number;
+    /** @default 'countdown_time' */
+    timeDialogVariable: string;
+}
+
+/**
+ * @see https://github.com/SteamDatabase/GameTracking-Dota2/search?q=ProgressBarWithMiddle
+ */
+interface ProgressBarWithMiddle extends Panel {
+    lowervalue: number;
+    uppervalue: number;
+    min: number;
+    max: number;
+}
+
+interface HUDOverlayMap extends Panel {
+    mapscale: number;
+    maptexture: string;
+    mapscroll: boolean;
+    fixedoffsetenabled: boolean;
+    SetFixedOffset(x: number, y: number): void;
+    SetFixedBackgroundTexturePosition(size: number, x: number, y: number): void;
+}
+
+interface AvatarImage extends UserName {
+    SetAccountID(accountid: number): void;
+}
+
+interface NumberEntry extends Panel {
+    value: number;
+    /** @default 0 */
+    min: number;
+    /** @default 1000000 */
+    max: number;
+    /** @default 1 */
+    increment: number;
+}
+
 // Only put single string literals in here, it'll be merged with the main one
 interface DollarStatic {
-    CreatePanel(type: "Label",                  root: Panel, id: string): LabelPanel;
-    CreatePanel(type: "Image",                  root: Panel, id: string): ImagePanel;
-    CreatePanel(type: "DOTAAbilityImage",       root: Panel, id: string): AbilityImage;
-    CreatePanel(type: "DOTAItemImage",          root: Panel, id: string): ItemImage;
-    CreatePanel(type: "DOTAHeroImage",          root: Panel, id: string): HeroImage;
-    CreatePanel(type: "ContextMenuScript",      root: Panel, id: string): ContextMenuScriptPanel;
-    CreatePanel(type: "DOTAScenePanel",         root: Panel, id: string): ScenePanel;
-    CreatePanel(type: "RadioButton",            root: Panel, id: string): RadioButton;
-    CreatePanel(type: "TextButton",             root: Panel, id: string): TextButton;
-    CreatePanel(type: "DOTASettingsCheckbox",   root: Panel, id: string): SettingsCheckbox;
-    CreatePanel(type: "ToggleButton",           root: Panel, id: string): ToggleButton;
-    CreatePanel(type: "DOTAHUDShopTextEntry",   root: Panel, id: string): HUDShopTextEntry;
-    CreatePanel(type: "TextEntry",              root: Panel, id: string): TextEntry;
-    CreatePanel(type: "DropDown",               root: Panel, id: string): DropDown;
-    CreatePanel(type: "SlottedSlider",          root: Panel, id: string): SlottedSlider;
-    CreatePanel(type: "Slider",                 root: Panel, id: string): SliderPanel;
-    CreatePanel(type: "ProgressBar",            root: Panel, id: string): ProgressBar;
-    CreatePanel(type: "CircularProgressBar",    root: Panel, id: string): CircularProgressBar;
-    CreatePanel(type: "DOTAUserRichPresence",   root: Panel, id: string): UserRichPresence;
-    CreatePanel(type: "DOTAUserName",           root: Panel, id: string): UserName;
-    CreatePanel(type: "DOTAHeroMovie",          root: Panel, id: string): HeroMovie;
-    CreatePanel(type: "HTML",                   root: Panel, id: string): HTML;
-    CreatePanel(type: "DOTAAccountLinkHTML",    root: Panel, id: string): AccountLinkHTML;
-    CreatePanel(type: "DOTAHTMLPanel",          root: Panel, id: string): HTMLPanel;
-    CreatePanel(type: "DOTAHeroSetList",        root: Panel, id: string): HeroSetList;
-    CreatePanel(type: "Carousel",               root: Panel, id: string): CarouselPanel;
-    CreatePanel(type: "DOTAStoreCustomControls", root: Panel, id: string): StoreCustomControls;
+    CreatePanel<K extends keyof PanoramaPanelNameMap>(type: K, root: PanelBase, id: string): PanoramaPanelNameMap[K];
 }
